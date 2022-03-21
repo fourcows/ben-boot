@@ -1,0 +1,3 @@
+### GET request with a header
+GET http://localhost:18080/hello
+Accept: application/json

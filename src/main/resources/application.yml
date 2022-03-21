@@ -1,0 +1,7 @@
+server:
+  port: 18080
+spring:
+  application:
+    name: ben-boot
+  profiles:
+    active: dev
