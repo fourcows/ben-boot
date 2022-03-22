@@ -6,7 +6,11 @@
 
     <groupId>ben</groupId>
     <artifactId>ben-boot</artifactId>
+    <packaging>pom</packaging>
     <version>0.1</version>
+    <modules>
+        <module>common</module>
+    </modules>
 
 
     <parent>
@@ -21,7 +25,10 @@
         <guava.version>29.0-jre</guava.version>
         <hutool.version>5.7.22</hutool.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
+        <mysql.version>8.0.19</mysql.version>
+        <druid.version>1.2.4</druid.version>
         <lombok.version>1.18.22</lombok.version>
+        <ben.version>0.1</ben.version>
     </properties>
 
     <repositories>
@@ -38,6 +45,18 @@
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
@@ -62,6 +81,24 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ben</groupId>
+                <artifactId>common-core</artifactId>
+                <version>${ben.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ben</groupId>
+                <artifactId>common-mybatis</artifactId>
+                <version>${ben.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ben</groupId>
+                <artifactId>common-web</artifactId>
+                <version>${ben.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
