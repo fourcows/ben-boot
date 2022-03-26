@@ -10,6 +10,8 @@
     <version>0.1</version>
     <modules>
         <module>common</module>
+        <module>system</module>
+        <module>admin</module>
     </modules>
 
 
@@ -25,6 +27,7 @@
         <guava.version>29.0-jre</guava.version>
         <hutool.version>5.7.22</hutool.version>
         <mybatis-plus.version>3.4.2</mybatis-plus.version>
+        <dynamic-datasource.version>3.3.2</dynamic-datasource.version>
         <mysql.version>8.0.19</mysql.version>
         <druid.version>1.2.4</druid.version>
         <lombok.version>1.18.22</lombok.version>
@@ -61,6 +64,12 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+                <version>${dynamic-datasource.version}</version>
             </dependency>
 
             <!-- Lombok -->
@@ -100,27 +109,14 @@
                 <artifactId>common-web</artifactId>
                 <version>${ben.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>ben</groupId>
+                <artifactId>system</artifactId>
+                <version>${ben.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <dependencies>
-        <!-- SpringBoot Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-        </dependency>
-
-        <!-- guava工具类 -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>

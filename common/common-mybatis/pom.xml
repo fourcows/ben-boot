@@ -28,6 +28,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>ben</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
