@@ -1,0 +1,27 @@
+### 查询
+GET http://localhost:18080/users?page.num=1&page.size=2&orders[0].col=gender&orders[0].isAsc=true&orders[1].col=userName&orders[1].isAsc=false&userId=1,2,3
+Accept: application/json
+
+### 新增
+POST http://localhost:18080/users
+Content-Type: application/json
+
+{
+  "userName": "ben"
+}
+
+### 修改
+PUT http://localhost:18080/users
+Content-Type: application/json
+
+{
+  "userId": "1",
+  "userName": "test2"
+}
+
+### 删除
+DELETE http://localhost:18080/users
+Content-Type: application/json
+
+["5"]
+
