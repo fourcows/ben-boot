@@ -1,0 +1,30 @@
+### 查询
+GET http://localhost:18080/roles
+Accept: application/json
+
+### 新增
+POST http://localhost:18080/roles
+Content-Type: application/json
+
+{
+  "roleKey": "common-role",
+  "roleName": "普通角色"
+}
+
+### 修改
+PUT http://localhost:18080/roles
+Content-Type: application/json
+
+{
+  "roleId": "1",
+  "roleKey": "common",
+  "roleName": "普通角色"
+}
+
+
+### 删除
+DELETE http://localhost:18080/roles
+Content-Type: application/json
+
+["2"]
+
