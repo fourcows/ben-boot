@@ -5,6 +5,7 @@ import ben.common.web.enums.QueryType;
 import ben.common.web.vo.QueryParam;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import java.lang.reflect.Field;
@@ -20,12 +21,12 @@ public class QueryUtil {
             if (query.type() == QueryType.LIKE) {
                 result.like(
                         ReflectUtil.getFieldValue(entity, field) != null && StrUtil.isNotBlank(String.valueOf(ReflectUtil.getFieldValue(entity, field))),
-                        StrUtil.toUnderlineCase(field.getName()),
+                        getQueryFieldName(query.table(), field.getName()),
                         ReflectUtil.getFieldValue(entity, field));
             } else if (query.type() == QueryType.IN) {
                 result.in(
                         ReflectUtil.getFieldValue(entity, field) != null && StrUtil.isNotBlank(String.valueOf(ReflectUtil.getFieldValue(entity, field))),
-                        StrUtil.toUnderlineCase(field.getName()),
+                        getQueryFieldName(query.table(), field.getName()),
                         Arrays.asList(String.valueOf(ReflectUtil.getFieldValue(entity, field)).split(",")));
             }
         }
@@ -39,6 +40,13 @@ public class QueryUtil {
         );
 
         return result;
+    }
+
+    private static String getQueryFieldName(Class<?> table, String fieldName) {
+        if (table == Object.class) return StrUtil.toUnderlineCase(fieldName);
+        if (table.isAnnotationPresent(TableName.class))
+            return table.getAnnotation(TableName.class).value() + "." + StrUtil.toUnderlineCase(fieldName);
+        return StrUtil.toUnderlineCase(table.getSimpleName() + "." + fieldName);
     }
 
 }
