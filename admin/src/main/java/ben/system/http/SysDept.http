@@ -1,0 +1,27 @@
+### 查询
+GET http://localhost:18080/depts
+Accept: application/json
+
+### 新增
+POST http://localhost:18080/depts
+Content-Type: application/json
+
+{
+  "deptName": "部门C"
+}
+
+### 修改
+PUT http://localhost:18080/depts
+Content-Type: application/json
+
+{
+  "deptId": "1",
+  "deptName": "test2"
+}
+
+### 删除
+DELETE http://localhost:18080/depts
+Content-Type: application/json
+
+["3"]
+
