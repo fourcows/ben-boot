@@ -1,0 +1,12 @@
+### 查询
+GET http://localhost:18080/roleDepts?roleId=1&deptId=2
+Accept: application/json
+
+### 新增
+POST http://localhost:18080/roleDepts
+Content-Type: application/json
+
+{
+  "roleId": "1",
+  "deptId": "1"
+}
