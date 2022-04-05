@@ -19,6 +19,11 @@ public abstract class BaseController<T> {
         return R.ok(service.queryPage(queryParam, entity));
     }
 
+    @GetMapping("{id}")
+    public R<?> getById(@PathVariable String id) {
+        return R.ok(service.getById(id));
+    }
+
     @PostMapping
     public R<?> add(@RequestBody T entity) {
         service.save(entity);

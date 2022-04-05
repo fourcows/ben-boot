@@ -1,0 +1,34 @@
+### 查询
+GET http://localhost:18080/perms
+Accept: application/json
+
+### 新增
+POST http://localhost:18080/perms
+Content-Type: application/json
+
+{
+  "permName": "查看",
+  "menuId": "1",
+  "urlPerm": "GET /users",
+  "btnPerm": "sys:users:list"
+}
+
+### 修改
+PUT http://localhost:18080/perms
+Content-Type: application/json
+
+{
+  "permId": "1",
+  "permName": "用户列表",
+  "menuId": "1",
+  "urlPerm": "GET /users",
+  "btnPerm": "sys:users:list"
+}
+
+
+### 删除
+DELETE http://localhost:18080/perms
+Content-Type: application/json
+
+["2"]
+

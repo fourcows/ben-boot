@@ -1,0 +1,44 @@
+### 查询
+GET http://localhost:18080/menus?menuId=3
+Accept: application/json
+
+### MyMenus
+GET http://localhost:18080/menus/myMenus
+Accept: application/json
+
+### 新增
+POST http://localhost:18080/menus
+Content-Type: application/json
+
+{
+  "parentId": "2",
+  "menuName": "Workbench",
+  "path": "workbench",
+  "component": "/dashboard/workbench/index",
+  "redirect": "",
+  "title": "routes.dashboard.workbench",
+  "icon": "bx:bx-home"
+}
+
+### 修改
+PUT http://localhost:18080/menus
+Content-Type: application/json
+
+{
+  "menuId": "3",
+  "parentId": "2",
+  "menuName": "Analysis",
+  "path": "analysis",
+  "component": "/dashboard/analysis/index",
+  "redirect": "",
+  "title": "routes.dashboard.analysis",
+  "icon": "bx:bx-home"
+}
+
+
+### 删除
+DELETE http://localhost:18080/menus
+Content-Type: application/json
+
+["2"]
+

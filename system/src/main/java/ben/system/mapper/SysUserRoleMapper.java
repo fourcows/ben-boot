@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface SysUserRoleMapper extends BaseMapper2<SysUserRole, SysUserRoleDTO> {
     String SQL = """
-            select sys_user.user_id, sys_user.user_name, sys_role.role_id, sys_role.role_name
+            select sys_user.user_id, sys_user.username, sys_role.role_id, sys_role.role_name
             from sys_user
                      left join sys_user_role on sys_user.user_id = sys_user_role.user_id
                      left join sys_role on sys_user_role.role_id = sys_role.role_id

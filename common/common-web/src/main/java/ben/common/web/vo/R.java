@@ -12,15 +12,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class R<T> {
 
-    private String code;
-    private T data;
-    private String msg;
+    private Integer code;
+    private T result;
+    private String message;
 
     public static <T> R<T> ok(T data) {
-        return new R<T>("0", data, null);
+        return new R<T>(0, data, null);
     }
 
     public static <T> R<T> ok() {
-        return new R<T>("0", null, null);
+        return new R<T>(0, null, null);
+    }
+
+    public static <T> R<T> fail(String msg) {
+        return new R<T>(1, null, msg);
     }
 }

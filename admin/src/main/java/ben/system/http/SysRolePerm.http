@@ -1,0 +1,12 @@
+### 查询
+GET http://localhost:18080/rolePerms?roleId=1
+Accept: application/json
+
+### 新增
+POST http://localhost:18080/rolePerms
+Content-Type: application/json
+
+{
+  "roleId": "1",
+  "permId": "1"
+}

@@ -9,24 +9,15 @@ import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-public class SysUser extends BaseEntity {
+public class SysPerm extends BaseEntity {
     @TableId
     @Query(type = QueryType.IN)
-    private String userId;
+    private String permId;
     @Query(type = QueryType.LIKE)
-    private String username;
-
-    private String password;
-
-    @Query(type = QueryType.LIKE)
-    private String nickName;
-    @Query(type = QueryType.LIKE)
-    private String email;
+    private String permName;
     @Query(type = QueryType.IN)
-    private String gender;
+    private String menuId;
 
-    /**
-     * 头像
-     */
-    private String avatar;
+    private String urlPerm;
+    private String btnPerm;
 }
