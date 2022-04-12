@@ -1,14 +1,17 @@
 package ben.system.entity;
 
 import ben.common.web.annotation.Query;
-import ben.common.web.entity.BaseEntity;
 import ben.common.web.enums.QueryType;
-import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @Data
-public class SysUserRole{
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class SysUserRole {
     @Query(type = QueryType.IN)
     private String userId;
     @Query(type = QueryType.IN)

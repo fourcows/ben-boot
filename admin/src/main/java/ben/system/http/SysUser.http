@@ -1,5 +1,5 @@
-### 查询
-GET http://localhost:18080/users?page.num=1&page.size=2&orders[0].col=gender&orders[0].isAsc=true&orders[1].col=userName&orders[1].isAsc=false&userId=1,2,3
+### 分页查询
+GET http://localhost:18080/system/users?page.num=1&page.size=2&orders[0].col=gender&orders[0].isAsc=true&orders[1].col=username&orders[1].isAsc=false&roleIds[0]=1&roleIds[1]=2&deptIds[0]=1&deptIds[1]=2
 Accept: application/json
 
 ### 新增
@@ -23,5 +23,7 @@ Content-Type: application/json
 DELETE http://localhost:18080/users
 Content-Type: application/json
 
-["5"]
+[
+  "5"
+]
 
