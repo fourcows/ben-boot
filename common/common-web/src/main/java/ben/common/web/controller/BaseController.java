@@ -16,7 +16,7 @@ public abstract class BaseController<T> {
 
     @GetMapping
     public R<?> list(QueryParam<T> queryParam, T entity) {
-        return R.ok(service.queryPage(queryParam, entity));
+        return R.ok(queryParam.getPage()!=null?service.queryPage(queryParam, entity):service.queryList(queryParam, entity));
     }
 
     @GetMapping("{id}")
