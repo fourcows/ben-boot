@@ -1,9 +1,9 @@
 ### 查询
-GET http://localhost:18080/roles
+GET http://localhost:18080/system/roles?page.size=1&roleKey=common
 Accept: application/json
 
 ### 新增
-POST http://localhost:18080/roles
+POST http://localhost:18080/system/roles
 Content-Type: application/json
 
 {
@@ -12,7 +12,7 @@ Content-Type: application/json
 }
 
 ### 修改
-PUT http://localhost:18080/roles
+PUT http://localhost:18080/system/roles
 Content-Type: application/json
 
 {
@@ -23,8 +23,10 @@ Content-Type: application/json
 
 
 ### 删除
-DELETE http://localhost:18080/roles
+DELETE http://localhost:18080/system/roles
 Content-Type: application/json
 
-["2"]
+[
+  "2"
+]
 
