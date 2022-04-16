@@ -10,6 +10,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,8 +52,8 @@ public class SysUserService extends BaseService<SysUserMapper, SysUser> {
     @Transactional(rollbackFor = Exception.class)
     public void delete(List<String> ids) {
         this.removeByIds(ids);
-        sysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, ids));
-        sysUserDeptService.remove(new LambdaQueryWrapper<SysUserDept>().eq(SysUserDept::getUserId, ids));
+        sysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getUserId, ids));
+        sysUserDeptService.remove(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getUserId, ids));
     }
 
     public UserDetailResVo detail(String id) {
@@ -63,41 +65,32 @@ public class SysUserService extends BaseService<SysUserMapper, SysUser> {
         return result;
     }
 
-    public List<UserListResVo> queryList(UserListReqVo vo) {
-        HashSet<String> filterUserIds = new HashSet<>();
-        if (!vo.getRoleIds().isEmpty()) {
-            List<String> userIds = sysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getRoleId, vo.getRoleIds()))
-                    .stream().map(SysUserRole::getUserId).collect(Collectors.toList());
-            if (userIds.isEmpty()) return new ArrayList<>();
-            filterUserIds.addAll(userIds);
-        }
-        if (!vo.getDeptIds().isEmpty()) {
-            List<String> userIds = sysUserDeptService.list(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptId, vo.getDeptIds()))
-                    .stream().map(SysUserDept::getUserId).collect(Collectors.toList());
-            if (userIds.isEmpty()) return new ArrayList<>();
-            filterUserIds.addAll(userIds);
-        }
-        SysUser queryEntity = vo.toEntity();
-        queryEntity.setUserId(StrUtil.join(",", filterUserIds));
-        return UserListResVo.toVo(this.queryList(vo.toQueryParam(), queryEntity));
+    public List<?> queryList(UserListReqVo vo) {
+        return (List<?>) queryUsers(vo, false);
     }
 
-    public IPage<UserListResVo> queryPage(UserListReqVo vo) {
-        HashSet<String> filterUserIds = new HashSet<>();
+    public IPage<?> queryPage(UserListReqVo vo) {
+        return (IPage<?>) queryUsers(vo, true);
+    }
+
+    private Object queryUsers(UserListReqVo vo, boolean isPage) {
+        Set<String> roleRelUserIds = new HashSet<>();
         if (!vo.getRoleIds().isEmpty()) {
-            List<String> userIds = sysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getRoleId, vo.getRoleIds()))
-                    .stream().map(SysUserRole::getUserId).collect(Collectors.toList());
-            if (userIds.isEmpty()) return new Page<>();
-            filterUserIds.addAll(userIds);
+            roleRelUserIds = sysUserRoleService.list(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getRoleId, vo.getRoleIds()))
+                    .stream().map(SysUserRole::getUserId).collect(Collectors.toSet());
+            if (roleRelUserIds.isEmpty()) return isPage ? new Page<>() : new ArrayList<>();
         }
+        Set<String> deptRelUserIds = new HashSet<>();
         if (!vo.getDeptIds().isEmpty()) {
-            List<String> userIds = sysUserDeptService.list(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptId, vo.getDeptIds()))
-                    .stream().map(SysUserDept::getUserId).collect(Collectors.toList());
-            if (userIds.isEmpty()) return new Page<>();
-            filterUserIds.addAll(userIds);
+            deptRelUserIds = sysUserDeptService.list(new LambdaQueryWrapper<SysUserDept>().in(SysUserDept::getDeptId, vo.getDeptIds()))
+                    .stream().map(SysUserDept::getUserId).collect(Collectors.toSet());
+            if (deptRelUserIds.isEmpty()) return isPage ? new Page<>() : new ArrayList<>();
         }
+        // roleRelUserIds 和 deptRelUserIds 都有值的情况下，取交集，其他情况取并集
+        Set<String> filterUserIds = (!roleRelUserIds.isEmpty() && !deptRelUserIds.isEmpty()) ? Sets.intersection(roleRelUserIds, deptRelUserIds) : Sets.union(roleRelUserIds, deptRelUserIds);
         SysUser queryEntity = vo.toEntity();
         queryEntity.setUserId(StrUtil.join(",", filterUserIds));
-        return UserListResVo.toPage(this.queryPage(vo.toQueryParam(), queryEntity));
+        return isPage ? UserListResVo.toPage(this.queryPage(vo.toQueryParam(), queryEntity)) : UserListResVo.toVo(this.queryList(vo.toQueryParam(), queryEntity));
     }
+
 }
