@@ -4,11 +4,14 @@ import ben.common.web.annotation.Query;
 import ben.common.web.entity.BaseEntity;
 import ben.common.web.enums.QueryType;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
+
 
 @EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class SysDept extends BaseEntity {
     @TableId
     @Query(type = QueryType.IN)
@@ -17,6 +20,6 @@ public class SysDept extends BaseEntity {
     private String deptName;
     @Query(type = QueryType.IN)
     private String parentId;
-    @Query(type = QueryType.IN)
-    private String status;
+    @Query(type = QueryType.LIKE)
+    private String remark;
 }

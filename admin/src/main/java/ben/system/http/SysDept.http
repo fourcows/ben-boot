@@ -1,13 +1,14 @@
 ### 查询
-GET http://localhost:18080/depts
+GET http://localhost:18080/system/depts
 Accept: application/json
 
 ### 新增
-POST http://localhost:18080/depts
+POST http://localhost:18080/system/depts
 Content-Type: application/json
 
 {
-  "deptName": "部门C"
+  "parentId": "3",
+  "deptName": "部门E"
 }
 
 ### 修改
@@ -23,5 +24,7 @@ Content-Type: application/json
 DELETE http://localhost:18080/depts
 Content-Type: application/json
 
-["3"]
+[
+  "3"
+]
 
