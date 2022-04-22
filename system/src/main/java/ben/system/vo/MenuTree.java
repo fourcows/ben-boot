@@ -28,16 +28,15 @@ public class MenuTree {
 
 
     public static List<MenuTree> toTree(final List<SysRoleMenuDTO> entities) {
-        Queue<MenuTree> queue = new LinkedList<>();
-        MenuTree root = MenuTree.builder().menuId("0").build();
-        queue.add(root);
+        List<MenuTree> result = entities.stream().filter(item -> item.getParentId() == null).map(MenuTree::toTree).collect(Collectors.toList());
+        Queue<MenuTree> queue = new LinkedList<>(result);
         while (!queue.isEmpty()) {
             MenuTree parent = queue.remove();
-            List<MenuTree> children = entities.stream().filter(item -> item.getParentId().equals(parent.getMenuId())).map(MenuTree::toTree).collect(Collectors.toList());
+            List<MenuTree> children = entities.stream().filter(item -> parent.getMenuId().equals(item.getParentId())).map(MenuTree::toTree).collect(Collectors.toList());
             parent.setChildren(children);
             if (!children.isEmpty()) queue.addAll(children);
         }
-        return root.getChildren();
+        return result;
     }
 
     public static MenuTree toTree(final SysRoleMenuDTO entity) {
@@ -46,6 +45,7 @@ public class MenuTree {
         result.setName(entity.getMenuName());
         RouteMeta routeMeta = new RouteMeta();
         BeanUtil.copyProperties(entity, routeMeta);
+        routeMeta.setTitle(entity.getMenuName());
         result.setMeta(routeMeta);
         return result;
     }

@@ -4,6 +4,7 @@ import ben.common.web.service.BaseService;
 import ben.system.entity.SysMenu;
 import ben.system.mapper.SysMenuMapper;
 import ben.system.vo.menu.*;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class SysMenuService extends BaseService<SysMenuMapper, SysMenu> {
     @Transactional(rollbackFor = Exception.class)
     public void edit(MenuUpdateReqVo vo) {
         SysMenu entity = vo.toEntity();
-        this.updateById(entity);
+        this.update(entity, new LambdaUpdateWrapper<SysMenu>().set(SysMenu::getParentId, entity.getParentId()).eq(SysMenu::getMenuId, entity.getMenuId()));
     }
 
     @Transactional(rollbackFor = Exception.class)

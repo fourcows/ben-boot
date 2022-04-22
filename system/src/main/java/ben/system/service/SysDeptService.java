@@ -4,6 +4,7 @@ import ben.common.web.service.BaseService;
 import ben.system.entity.SysDept;
 import ben.system.mapper.SysDeptMapper;
 import ben.system.vo.dept.*;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +22,7 @@ public class SysDeptService extends BaseService<SysDeptMapper, SysDept> {
     @Transactional(rollbackFor = Exception.class)
     public void edit(DeptUpdateReqVo vo) {
         SysDept entity = vo.toEntity();
-        this.updateById(entity);
+        this.update(entity, new LambdaUpdateWrapper<SysDept>().set(SysDept::getParentId, entity.getParentId()).eq(SysDept::getDeptId, entity.getDeptId()));
     }
 
     @Transactional(rollbackFor = Exception.class)

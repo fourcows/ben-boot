@@ -26,16 +26,16 @@ public class DeptTree {
 
 
     public static List<DeptTree> toTree(final List<SysDept> entities) {
-        Queue<DeptTree> queue = new LinkedList<>();
-        DeptTree root = DeptTree.builder().deptId("0").build();
-        queue.add(root);
+        List<DeptTree> result = entities.stream().filter(item -> item.getParentId() == null).map(DeptTree::toTree).collect(Collectors.toList());
+        Queue<DeptTree> queue = new LinkedList<>(result);
+        queue.addAll(result);
         while (!queue.isEmpty()) {
             DeptTree parent = queue.remove();
-            List<DeptTree> children = entities.stream().filter(item -> item.getParentId().equals(parent.getDeptId())).map(DeptTree::toTree).collect(Collectors.toList());
+            List<DeptTree> children = entities.stream().filter(item -> parent.getDeptId().equals(item.getParentId())).map(DeptTree::toTree).collect(Collectors.toList());
             parent.setChildren(children);
             if (!children.isEmpty()) queue.addAll(children);
         }
-        return root.getChildren();
+        return result;
     }
 
     public static DeptTree toTree(final SysDept entity) {
