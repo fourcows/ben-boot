@@ -3,8 +3,8 @@ package ben.system.controller;
 import ben.common.web.vo.R;
 import ben.system.entity.SysUser;
 import ben.system.service.SysUserService;
-import ben.system.vo.LoginReqVo;
-import ben.system.vo.LoginResVo;
+import ben.system.vo.login.LoginReqVo;
+import ben.system.vo.login.LoginResVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.UUID;
 
 @RestController
-@RequestMapping
+@RequestMapping("auth")
 @RequiredArgsConstructor
 public class SysAuthController {
     private final SysUserService sysUserService;

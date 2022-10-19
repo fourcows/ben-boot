@@ -1,4 +1,4 @@
-package ben.system.vo;
+package ben.system.vo.login;
 
 import lombok.Builder;
 import lombok.Data;
