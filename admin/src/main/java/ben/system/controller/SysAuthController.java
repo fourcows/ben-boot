@@ -7,11 +7,9 @@ import ben.system.vo.login.LoginReqVo;
 import ben.system.vo.login.LoginResVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 @RestController
@@ -27,5 +25,12 @@ public class SysAuthController {
                 .eq(SysUser::getPassword, loginReqVo.getPassword())
         );
         return sysUser != null ? R.ok(LoginResVo.builder().token(UUID.randomUUID().toString()).build()) : R.fail("用户名/密码错误");
+    }
+
+    @GetMapping("logout")
+    public R<?> logout(HttpServletRequest request) {
+        String token = request.getHeader("Authorization");
+        // todo 清除token
+        return R.ok();
     }
 }

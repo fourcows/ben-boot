@@ -12,6 +12,9 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.common.collect.Sets;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,9 +26,14 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SysUserService extends BaseService<SysUserMapper, SysUser> {
+public class SysUserService extends BaseService<SysUserMapper, SysUser> implements UserDetailsService {
     private final SysUserRoleService sysUserRoleService;
     private final SysUserDeptService sysUserDeptService;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return getOne(new LambdaQueryWrapper<SysUser>().eq(SysUser::getUsername, username));
+    }
 
     @Transactional(rollbackFor = Exception.class)
     public void add(CreateUserReqVo vo) {
