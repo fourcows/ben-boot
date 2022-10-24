@@ -8,6 +8,7 @@ import ben.system.dto.SysUserRoleDTO;
 import ben.system.service.SysUserRoleService;
 import cn.hutool.extra.spring.SpringUtil;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,26 +44,31 @@ public class SysUser extends BaseEntity implements UserDetails {
     private String avatar;
     private String remark;
 
+    @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return SpringUtil.getBean(SysUserRoleService.class).queryList(new QueryParam<>(), SysUserRoleDTO.builder().userId(userId).build()).stream().map(SysUserRoleDTO::getRoleName).map(item -> "ROLE_" + item).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
+    @JsonIgnore
     @Override
     public boolean isEnabled() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
 
+    @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
         return true;

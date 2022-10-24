@@ -12,6 +12,13 @@
     <artifactId>common-core</artifactId>
 
     <dependencies>
+        <!--  jackson 序列化java.time -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

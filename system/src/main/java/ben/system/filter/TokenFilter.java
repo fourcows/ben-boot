@@ -1,9 +1,9 @@
 package ben.system.filter;
 
-import ben.system.service.SysUserService;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.spring.SpringUtil;
+import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
  * 验证token的有效性，并把用户认证信息加入到Spring Security上下文中
  */
 @Component
+@AllArgsConstructor
 public class TokenFilter extends OncePerRequestFilter {
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     @SneakyThrows
@@ -28,8 +30,8 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) {
         String token = request.getHeader("Authorization");
         if (StrUtil.isNotEmpty(token)) {
-            // todo 验证token有效性
-            UserDetails userDetails = SpringUtil.getBean(SysUserService.class).loadUserByUsername("ben");
+            //验证token有效性
+            UserDetails userDetails = (UserDetails) redisTemplate.opsForHash().get("token", token);
 
             // 设置当前用户认证信息到上下文
             if (SecurityContextHolder.getContext().getAuthentication() == null) {
