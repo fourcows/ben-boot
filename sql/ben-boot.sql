@@ -116,7 +116,16 @@ CREATE TABLE `sys_perm`
 --
 -- Dumping data for table `sys_perm`
 --
-
+INSERT INTO `sys_perm`
+VALUES (1, '用户列表', 3, 'GET:/system/users', 'system:users:list', null, null, '2022-10-29 00:34:17', 0, 0, null);
+INSERT INTO `sys_perm`
+VALUES (2, '用户详情', 3, 'GET:/system/users/*', 'system:users:detail', null, null, '2022-10-29 00:33:41', 0, 0, null);
+INSERT INTO `sys_perm`
+VALUES (3, '新增用户', 3, 'POST:/system/users', 'system:users:add', null, null, '2022-10-29 00:33:32', 0, 0, null);
+INSERT INTO `sys_perm`
+VALUES (4, '修改用户', 3, 'PUT:/system/users/*', 'system:users:edit', null, null, null, 0, 0, null);
+INSERT INTO `sys_perm`
+VALUES (5, '删除用户', 3, 'DELETE:/system/users/*', 'system:users:delete', null, null, null, 0, 0, null);
 
 --
 -- Table structure for table `sys_role`

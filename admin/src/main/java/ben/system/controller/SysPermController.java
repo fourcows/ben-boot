@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("system/perms")
+@RequestMapping("system/funcPerms")
 public class SysPermController extends BaseController<SysPerm> {
     private final SysRolePermService sysRolePermService;
 
