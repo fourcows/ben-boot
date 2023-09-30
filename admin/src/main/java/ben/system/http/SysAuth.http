@@ -1,0 +1,9 @@
+### 登录
+POST http://localhost:18080/auth/login
+Content-Type: application/json
+
+{
+  "username": "ben",
+  "password": "123456"
+}
+

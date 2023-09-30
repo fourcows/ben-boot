@@ -11,4 +11,13 @@ public class PageParam<E> {
     public Page<E> toPage() {
         return new Page<>(num, size);
     }
+
+    public void valid() {
+        if (num == null || size == null) {
+            throw new RuntimeException("分页参数必传");
+        }
+        if (size > 200) {
+            throw new RuntimeException("分页大小超出最大条数限制");
+        }
+    }
 }

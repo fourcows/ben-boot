@@ -17,7 +17,7 @@ public class UserDetailResVo {
     private String username;
     private List<String> roleIds;
     private List<String> deptIds;
-    private String nickName;
+    private String realName;
     private String email;
     private String remark;
 
@@ -25,7 +25,7 @@ public class UserDetailResVo {
         return UserDetailResVo.builder()
                 .userId(entity.getUserId())
                 .username(entity.getUsername())
-                .nickName(entity.getNickName())
+                .realName(entity.getNickName())
                 .email(entity.getEmail())
                 .remark(entity.getRemark())
                 .build();

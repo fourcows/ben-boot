@@ -1,0 +1,42 @@
+### 查询
+GET http://localhost:18080/notes?page.num=1&page.size=10
+Authorization:
+Accept: application/json
+
+
+
+### 新增
+POST http://localhost:18080/notes
+Authorization:
+Content-Type: application/json
+
+
+{
+  "content": "test3",
+  "labelIds": [
+    1
+  ]
+}
+
+### 修改
+PUT http://localhost:18080/notes
+Authorization:
+Content-Type: application/json
+
+{
+  "noteId": 3,
+  "content": "test3333",
+  "labelIds": [
+    1
+  ]
+}
+
+### 删除
+DELETE http://localhost:18080/notes
+Authorization:
+Content-Type: application/json
+
+[
+  2
+]
+
