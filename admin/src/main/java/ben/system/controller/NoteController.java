@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -40,9 +41,9 @@ public class NoteController {
         return R.ok(noteService.edit(vo));
     }
 
-    @DeleteMapping
-    public R<?> delete(@RequestBody List<Integer> ids) {
-        noteService.delete(ids);
+    @DeleteMapping("{id}")
+    public R<?> delete(@PathVariable Integer id) {
+        noteService.delete(Collections.singletonList(id));
         return R.ok();
     }
 }

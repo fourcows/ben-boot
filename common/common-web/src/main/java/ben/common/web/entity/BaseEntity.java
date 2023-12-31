@@ -15,10 +15,10 @@ public class BaseEntity {
     @TableField(fill = FieldFill.INSERT)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime createTime;
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String updateBy;
-    @TableField(fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private LocalDateTime updateTime;
     @JsonProperty

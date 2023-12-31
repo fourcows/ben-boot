@@ -20,6 +20,7 @@ public class MybatisPlusAutoFill implements MetaObjectHandler {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         this.setFieldValByName("createBy", ReflectUtil.getFieldValue(principal, "userId"), metaObject);
         this.setFieldValByName("createTime", LocalDateTime.now(), metaObject);
+        this.setFieldValByName("updateTime", LocalDateTime.now(), metaObject);
     }
 
     @Override

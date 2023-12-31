@@ -21,10 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -84,14 +81,16 @@ public class NoteService extends ServiceImpl<NoteMapper, Note> {
         vo.validPage();
         IPage<Integer> pageData = this.baseMapper.queryNoteIdsByPage(new QueryWrapper<NoteQueryIdsParam>()
                         .in(!CollectionUtils.isEmpty(vo.getLabelIds()), "note_label.label_id", vo.getLabelIds())
-                        .like(StringUtils.hasText(vo.getContent()), "note.content", vo.getContent()),
+                        .like(StringUtils.hasText(vo.getContent()), "note.content", vo.getContent())
+                        .eq("note.is_deleted", 0)
+                ,
                 new Page<>(vo.getPage().getNum(), vo.getPage().getSize())
         );
         if (pageData.getTotal() == 0) {
             return new Page<NoteListResVo>(vo.getPage().getNum(), vo.getPage().getSize()).setRecords(new ArrayList<>());
         }
         List<NoteDTO> noteDTOS = toDtoList(this.listByIds(pageData.getRecords()));
-        List<NoteListResVo> noteVOs = noteDTOS.stream().map(NoteListResVo::toVo).collect(Collectors.toList());
+        List<NoteListResVo> noteVOs = noteDTOS.stream().map(NoteListResVo::toVo).sorted(Comparator.comparing(NoteListResVo::getUpdateTime).reversed()).collect(Collectors.toList());
         return new Page<NoteListResVo>(pageData.getCurrent(), pageData.getSize(), pageData.getTotal()).setRecords(noteVOs);
     }
 
@@ -106,8 +105,8 @@ public class NoteService extends ServiceImpl<NoteMapper, Note> {
         List<LabelDTO> labelDTOS = labelService.queryList(LabelParam.builder().labelIds(labelIds).build());
         Map<Integer, LabelDTO> labelMap = labelDTOS.stream().collect(Collectors.toMap(LabelDTO::getLabelId, item -> item, (v1, v2) -> v1));
         return notes.stream().map(note -> {
-            List<LabelDTO> labelDTOs = noteLabelMap.get(note.getNoteId()).stream().map(labelMap::get).collect(Collectors.toList());
-            return NoteDTO.builder().noteId(note.getNoteId()).content(note.getContent()).labels(labelDTOs).build();
+            List<LabelDTO> labelDTOs = noteLabelMap.getOrDefault(note.getNoteId(), new ArrayList<>()).stream().map(labelMap::get).collect(Collectors.toList());
+            return NoteDTO.builder().noteId(note.getNoteId()).content(note.getContent()).updateTime(note.getUpdateTime()).labels(labelDTOs).build();
         }).collect(Collectors.toList());
     }
 
